@@ -1,0 +1,40 @@
+Copyright 2016-2018 RDK Management
+Licensed under the Apache License, Version 2.0 
+
+Copyright 2005-2018 John Robinson
+Licensed under the Apache License, Version 2.0 
+
+General Notices:
+----------------
+
+[1] Media files Apache 2.0 licensed:
+
+    The files in the samples/mse-player/mse_frames/ directory are
+    raw binary video and audio (h264/aac) frames, created from
+    the RDK Wiki Training video: 'RDK Wiki "Watch" Feature', see:
+
+        https://wiki.rdkcentral.com/pages/viewpage.action?pageId=15892553
+
+    RDK Management consider that video content to be licensed under
+    Apache 2.0.
+
+[2] Weston and Wayland MIT Licensed Snippets:
+
+    The following files contain snippets from Weston and Wayland
+    which are licensed under MIT (see lICENSE file):
+
+        Copyright © 2010 Intel Corporation
+        Copyright © 2011 Benjamin Franzke
+        Copyright © 2012-2013 Collabora, Ltd.
+
+        See vert_shader_text and frag_shader_text in:
+        samples/graphics-lifecycle/graphics-lifecycle.cpp
+        samples/graphics/rne-triangle.cpp
+
+[3] pxCore Apache 2.0 Licensed Snippets:
+
+    Copyright 2005-2018 John Robinson under Apache 2.0:
+
+        pxNativeWindow.cpp:setBlockingMode() used in:
+        samples/graphics-lifecycle/graphics-lifecycle.cpp
+        samples/graphics/rne-triangle.cpp
