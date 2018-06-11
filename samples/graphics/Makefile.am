@@ -25,7 +25,7 @@ AM_CXXFLAGS= \
    -I${PKG_CONFIG_SYSROOT_DIR}/$(includedir)/wayland \
    $(WAYLAND_CLIENT_CFLAGS) $(WAYLAND_SERVER_CFLAGS) \
    $(XKBCOMMON_CFLAGS)   
-AM_LDFLAGS=$(WAYLANDLIB)
+AM_LDFLAGS=$(WAYLANDLIB) -Wl,--allow-shlib-undefined
 
 ## --- Configurtion -------
 if ENABLE_PLATFORM_EMBEDDED
