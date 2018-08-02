@@ -8,6 +8,7 @@ RNE SDK version 0.3
     - [Installation of RDK Image on Raspberry Pi](#installation-of-rdk-image-on-raspberry-pi)
     - [Installation of RNE SDK](#installation-of-rne-sdk)
 - [Developing applications](#developing-applications)
+    - [Troubleshooting](#troubleshooting)
     - [Breakpad support](#breakpad-support)
 - [Terminal Access](#terminal-access)
 	- [For Raspberry Pi](#for-raspberry-pi)
@@ -141,7 +142,7 @@ Now all the cross compiler tools are available for development. Four native samp
 
 >      ./build_samples.sh
 
-After the samples are built they are contained in a partnerapps directory for copying to the provided device. 
+After the samples are built they are contained in a partnerapps directory for copying to the provided device.
 
 <a name="breakpad-support"></a>
 ### Breadpad support ###
@@ -150,6 +151,10 @@ https://chromium.googlesource.com/breakpad/breakpad/+/master/docs/linux_starter_
 The static library is added as part of SDK. 
 
 The rne player application, included as part of this, has breakpad support.
+
+<a name="troubleshooting"></a>
+If a shared library has secondary dependencies which it cannot resolve, the following linker flags should be added to tell the linker to ignore its undefined symbols
+-Wl, --allow-shlib-undefined
 
 <a name="terminal-access"></a>
 
