@@ -18,6 +18,11 @@
 # limitations under the License.
 #######################################################################################
 
+if [ -z "$OECORE_TARGET_SYSROOT" ]; then
+  echo "OECORE_TARGET_SYSROOT is not set, this script needs to be run in an RNE environment, exiting"
+  exit 1
+fi
+
 result=1
 cur_dir=$PWD
 release_dir=partnerapps
@@ -103,6 +108,7 @@ function buildmseplayer()
 mkdir -p $release_dir
 cp appmanagerregistry.conf $release_dir/
 cp run_partner_app.sh $release_dir/
+cp run_westeros.sh $release_dir/
 
 buildgraphics
 if [ $result -ne 0 ] ; then
