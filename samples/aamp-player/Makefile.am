@@ -57,7 +57,7 @@ aampplayer_SOURCES = \
 
 	
 aampplayer_LDFLAGS = \
-	-lIARMBus
+	-lIARMBus -Wl,--allow-shlib-undefined
 	
 AM_CXXFLAGS += -DDISABLE_CLOSEDCAPTIONS
 
