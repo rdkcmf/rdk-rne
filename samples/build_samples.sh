@@ -104,6 +104,24 @@ function buildmseplayer()
 	fi
 	cd $cur_dir
 }
+function buildaampplayer()
+{
+   result=1
+    echo "Entering aamp-player........"
+    cd aamp-player
+    autoreconf -f -i >>build.log 2>&1
+    ./configure --host=arm-linux --prefix=$PKG_CONFIG_SYSROOT_DIR >>build.log 2>&1
+    make >>build.log 2>&1
+    if [ $? -eq 0 ] ; then
+    mkdir -p $cur_dir/$release_dir/aamp-player/
+        cp aampplayer $cur_dir/$release_dir/aamp-player/
+        result=0
+        echo "Exiting aamp-player........"
+    else
+        echo "Failed to build aampplayer. Logs are present at $PWD/build.log"
+    fi
+    cd $cur_dir
+}
 
 mkdir -p $release_dir
 cp appmanagerregistry.conf $release_dir/
@@ -130,9 +148,15 @@ if [ $result -ne 0 ] ; then
 	echo "Exiting........"
    exit 1
 fi
-	
-echo -e "All done..\n Four applications are compiled and installed in $release_dir directory\n\
+buildaampplayer
+if [ $result -ne 0 ] ; then
+    echo "Exiting........"
+   exit 1
+fi	
+echo -e "All done..\n Five applications are compiled and installed in $release_dir directory\n\
 rne-triangle will demostrate the graphics capabilities\n\
 rne-player will demostrate how to play a video 
 graphics-lifecycle extends rne_triangle to support suspend and resume 
-mse-player shows how to build a simple MSE-like player using gstreamer and essos" 
+mse-player shows how to build a simple MSE-like player using gstreamer and essos
+aamp-player demonstrates how to use AAMP player to play a video" 
+
