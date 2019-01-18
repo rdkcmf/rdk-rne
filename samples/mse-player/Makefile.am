@@ -38,6 +38,10 @@ mediasourcepipeline.cpp \
 GstMSESrc.cpp \
 glib_tools.cpp
 
+if !HAVE_GLESV2
+GLESV2_LIBS = "-lGLESv2 "
+endif
+
 mse_player_CXXFLAGS = $(AM_CXXFLAGS) $(GST_CFLAGS)
 mse_player_LDFLAGS= \
    $(AM_LDFLAGS) \
@@ -48,7 +52,7 @@ mse_player_LDFLAGS= \
    $(WSTEGL_LIBS) \
    -lEGL \
    -lessos \
-   -lGLESv2 \
+   $(GLESV2_LIBS) \
    -lrtCore \
    -lrtRemote
 

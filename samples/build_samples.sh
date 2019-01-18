@@ -18,6 +18,11 @@
 # limitations under the License.
 #######################################################################################
 
+if [ -z "$OECORE_TARGET_SYSROOT" ]; then
+  echo "OECORE_TARGET_SYSROOT is not set, this script needs to be run in an RNE environment, exiting"
+  exit 1
+fi
+
 result=1
 cur_dir=$PWD
 release_dir=partnerapps
@@ -103,6 +108,7 @@ function buildmseplayer()
 mkdir -p $release_dir
 cp appmanagerregistry.conf $release_dir/
 cp run_partner_app.sh $release_dir/
+cp run_westeros.sh $release_dir/
 
 buildgraphics
 if [ $result -ne 0 ] ; then
@@ -125,8 +131,10 @@ if [ $result -ne 0 ] ; then
    exit 1
 fi
 	
-echo -e "All done..\n Four applications are compiled and installed in $release_dir directory\n\
+echo -e "All done..\nFour applications are compiled and installed in $release_dir directory\n\
 rne-triangle will demostrate the graphics capabilities\n\
 rne-player will demostrate how to play a video 
 graphics-lifecycle extends rne_triangle to support suspend and resume 
-mse-player shows how to build a simple MSE-like player using gstreamer and essos" 
+mse-player shows how to build a simple MSE-like player using gstreamer and essos"
+
+

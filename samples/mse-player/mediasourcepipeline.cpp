@@ -928,6 +928,11 @@ bool MediaSourcePipeline::Build()
   video_sink_ = gst_element_factory_make("westerossink", "vsink");
   //g_object_set(G_OBJECT(video_sink_), "sync", 1, NULL );
   g_object_set(G_OBJECT(pipeline_), "video-sink", video_sink_, NULL );
+  /* Secure video path - SVP is available for Broadcom platform 16.2 and above  */
+  if( g_object_class_find_property( G_OBJECT_GET_CLASS( video_sink_ ), "secure-video" ) )
+  {
+     g_object_set( G_OBJECT( video_sink_ ), "secure-video", true, NULL );
+  }
 
   unsigned flagAudio = getGstPlayFlag("audio");
   unsigned flagVideo = getGstPlayFlag("video");

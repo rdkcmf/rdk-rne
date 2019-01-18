@@ -18,7 +18,15 @@
 # limitations under the License.
 ##########################################################################
 
-export XDG_RUNTIME_DIR=/run
-export WAYLAND_DISPLAY=wayland-0
+is_raspberrypi=`uname -a | grep -i raspberrypi`
+
+if [ ! -z "$is_raspberrypi" ]; then
+  export XDG_RUNTIME_DIR=/run
+  export WAYLAND_DISPLAY=wayland-0
+else #comcast device
+  export XDG_RUNTIME_DIR=/tmp/
+  export WAYLAND_DISPLAY=mydisplay
+  export LD_PRELOAD=libwayland-egl.so.0
+fi
 
 /usb/partnerapps/rne-triangle/rne_triangle

@@ -204,6 +204,30 @@ static gboolean busCallback(GstBus *bus, GstMessage *message, gpointer data)
     return TRUE;
 }
 
+/* Function demonstrating how to setup proxy for accessing URLs */
+static void cb_playbin_source_setup( GObject *obj ) 
+{ 
+    const char* rne_proxy = getenv("RNE_PROXY");
+    GObject *source_element; 
+    
+    if( NULL != rne_proxy )
+    {
+        printf( "The proxy is %s\n", rne_proxy );
+    
+        if( g_object_class_find_property( G_OBJECT_GET_CLASS( obj ), "source" ) ) 
+        {
+            /* Get source element of playbin*/
+            g_object_get(obj, "source", &source_element, NULL); 
+            
+            if( g_object_class_find_property ( G_OBJECT_GET_CLASS( source_element ), "proxy" ) ) 
+            { 
+                g_object_set( G_OBJECT( source_element ), "proxy", rne_proxy, NULL );
+            }
+            g_object_unref( source_element ); 
+        }
+    }
+}
+
 bool createPipeline( AppCtx *ctx )
 {
    bool result= false;
@@ -247,6 +271,12 @@ bool createPipeline( AppCtx *ctx )
    gst_object_ref( ctx->westerossink );
    
    g_object_set(G_OBJECT(ctx->player), "video-sink", ctx->westerossink, NULL );
+  
+   /* Secure video path - SVP is available for Broadcom platform 16.2 and above  */
+   if( g_object_class_find_property( G_OBJECT_GET_CLASS( ctx->westerossink ), "secure-video" ) )
+   {
+       g_object_set( G_OBJECT( ctx->westerossink ), "secure-video", true, NULL );
+   }
    
    if ( !gst_bin_add( GST_BIN(ctx->pipeline), ctx->player) )
    {
@@ -254,6 +284,8 @@ bool createPipeline( AppCtx *ctx )
       goto exit;
    }
    
+   g_signal_connect( G_OBJECT( ctx->player ), "source-setup", G_CALLBACK( cb_playbin_source_setup ), NULL );
+
    result= true;   
 
 exit:

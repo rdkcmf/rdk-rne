@@ -38,8 +38,6 @@
 
 #include "wayland-client.h"
 
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
 
 #define UNUSED( x ) ((void)(x))
 
@@ -160,9 +158,6 @@ int main(int argc, char** argv) {
     printf("Failed to connect to wayland display, exiting...\n");
     exit(1);
   }
-
-  // workaround for essos issue on rpi, force linking of glesv2
-  glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
   bool have_folder = false;
   struct stat st;

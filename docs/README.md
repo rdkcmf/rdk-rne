@@ -8,18 +8,21 @@ RNE SDK version 0.3
     - [Installation of RDK Image on Raspberry Pi](#installation-of-rdk-image-on-raspberry-pi)
     - [Installation of RNE SDK](#installation-of-rne-sdk)
 - [Developing applications](#developing-applications)
+    - [Troubleshooting](#troubleshooting)
     - [Breakpad support](#breakpad-support)
 - [Terminal Access](#terminal-access)
 	- [For Raspberry Pi](#for-raspberry-pi)
-	- [For Pace xi5](#for-pace-xi5)
+	- [For Comcast Devices](#for-comcast-devices)
 - [Installing Sample Applications](#installing-sample-applications)
     - [Preparing USB](#preparing-USB)
 	- [Running Sample Applications on Raspberry Pi](#running-sample-applications-raspberry-pi)
-	- [Running Sample Applications on Pace xi5](#running-sample-applications-pace-xi5)
+	- [Running Sample Applications on Comcast Devices](#running-sample-applications-comcast-devices)
 	- [App Manager Registry File](#app-manager-registry-file)
 	- [Running Sample Applications Standalone on Raspberry Pi](#running-sample-applications-standalone-on-raspberry-pi)
+	- [Running Sample Applications Standalone on Comcast Devices](#running-sample-applications-standalone-on-comcast-devices)
 - [Using the App Manager](#using-the-app-manager)
-	- [App Manager Logging](#app-manager-logging)
+	- [App Manager Logging on Raspberry Pi](#app-manager-logging-raspberry-pi)
+	- [App Manager Logging on Comcast Devices](#app-manager-logging-comcast-devices)
 - [Key App Features](#key-app-features)
     - [Graphics With Wayland](#graphics-with-wayland)
     - [Keyboard And Remote Input](#keyboard-and-remote-input)
@@ -91,17 +94,17 @@ Installation
 Currently the only supported version of the Raspberry pi is **Raspberry Pi 3 Model B**.
 With Pi 3 Model B+ support planned for a future release.
 
-As part of RNE package you should receive an rdk sdimg to flash to the raspberry pi sdcard.
+As part of RNE package you should receive a compressed rdk sdimg.xz to flash to the raspberry pi sdcard.
 Insert the raspberry pi sdcard into your desktop machine and flash the image using the
 following commands (**This will overwrite anything on the sdcard**).
 
->       sudo dd if=/path/to/image/*.rpi-sdimg of=/dev/sdX bs=4M
+>       xzcat /path/to/image/*.rpi-sdimg.xz  | sudo dd of=/dev/sdX bs=4M
 >       sync 
 
-Replace *if=* path with correct path to sdimg.  
+Replace */path/to/image/*  with correct path to sdimg.xz.  
 Replace the *X* in *sdX* with the correct device letter of the sdcard when inserted into your machine.  
 **Example:**  
->       sudo dd if=/home/user/rne-0.3/RPIMC_default_20171212212142sdy.rootfs.rpi-sdimg of=/dev/sdb bs=4M  
+>       xzcat RPIMC_default_20181015101838sdy.rootfs.rpi-sdimg.xz  | sudo dd of=/dev/sdc bs=4M
 
 
 Once flashed insert the sdcard into the pi and make sure it has a valid ethernet and HDMI connection.
@@ -116,9 +119,10 @@ On Raspberry Pi:
 >      chmod +x ./raspberrypi-rdk-mc-RNE-SDK-2.0.sh
 >      ./raspberrypi-rdk-mc-RNE-SDK-2.0.sh 
 
-On Pace xi5:
->      chmod +x ./pacexi5-daisy-RNE-SDK-2.0.sh
->      ./pacexi5-daisy-RNE-SDK-2.0.sh 
+On Comcast Devices:
+>      chmod +x ./DEVICE-RNE-SDK-2.0.sh
+>      ./DEVICE-RNE-SDK-2.0.sh 
+Replace DEVICE with your particular device: e.g. (pacexi5, pacexi5-RNE-SDK-2.0.sh)
 
 Follow the instructions in the screen regarding installation directory. If you don't want to change the default directory, please press *ENTER* and proceed.
 It's easiest to run the above script in an empty directory and type . to install in the current directory.
@@ -141,7 +145,7 @@ Now all the cross compiler tools are available for development. Four native samp
 
 >      ./build_samples.sh
 
-After the samples are built they are contained in a partnerapps directory for copying to the provided device. 
+After the samples are built they are contained in a partnerapps directory for copying to the provided device.
 
 <a name="breakpad-support"></a>
 ### Breadpad support ###
@@ -150,6 +154,11 @@ https://chromium.googlesource.com/breakpad/breakpad/+/master/docs/linux_starter_
 The static library is added as part of SDK. 
 
 The rne player application, included as part of this, has breakpad support.
+
+<a name="troubleshooting"></a>
+### Troubleshooting ###
+If a shared library has secondary dependencies which it cannot resolve, the following linker flags should be added to tell the linker to ignore its undefined symbols
+-Wl, --allow-shlib-undefined
 
 <a name="terminal-access"></a>
 
@@ -166,9 +175,9 @@ Example:
 
 Then press enter twice to get ssh terminal access to the box.
 
-<a name="for-pace-xi5"></a>
-### For Pace xi5 ###
-TODO...
+<a name="for-comcast-devices"></a>
+### For Comcast Devices ###
+SSH access instructions will be provided to you.
 
 <a name="installing-sample-applications"></a>
 
@@ -194,13 +203,26 @@ To format USB in ext3
 
 Once the sample applications are built with the provided sdk a partnerapps folder will be created at the root of the samples directory.
 You can then place this directory at the root of the USB storage device and then insert the USB stick into the pi.
-Once inserted, use a USB keyboard and press ctrl-e to reload the app manager.
+Once inserted, use a USB keyboard and press ctrl-e to reload the app manager. You will now see all the sample apps in the list.
 
-You can have the app manager launch your own binary by renaming the binary *partnerapp* and placing it the partnerapps folder at the root of the USB storage device.
+You can also have the app manager launch your own binary by renaming the binary *partnerapp* and placing it in the partnerapps folder at the root of the USB storage device.
 
-<a name="running-sample-applications-pace-xi5"></a>
-### Running Sample Applications on Pace xi5 ###
-TODO...
+<a name="running-sample-applications-comcast-devices"></a>
+### Running Sample Applications on Comcast Devices ###
+Once the sample applications are built with the provided sdk a partnerapps folder will be created at the root of the samples directory.
+You can then place this directory at the root of the USB storage device and then insert the USB stick into the comcast device.
+
+If provided ssh access:
+
+1.  SSH into the comcast device
+2.  Mount the usb key to /usb
+
+>     mount /dev/sda /usb  
+
+Once inserted, use a USB keyboard and press ctrl-e to reload the app manager. You will now see all the sample apps in the list.
+
+You can also have the app manager launch your own binary by renaming the binary *partnerapp* and placing it in the  partnerapps folder at the root of the USB storage device.
+
 
 <a name="app-manager-registry-file"></a>
 ### App Manager Registry File ###
@@ -221,10 +243,31 @@ Once sshed into the raspberry pi do the following:
 >      /usb/partnerapps/run_partner_app.sh
 
 By default the the above shell script runs the rne_triangle sample app.  But it
-can easily be modified to run any app of your choosing.
+can easily be modified to run any app of your choosing by editing the last line
+in the script.
 
 To use the app manager again, just start its service back up.
 >      systemctl start appmanager 
+
+<a name="running-sample-applications-standalone-on-comcast-devices"></a>
+### Running Sample Applications Standalone on Comcast Devices ###
+For debugging purposes you can run your applications standalone without the app manager
+provided you have ssh access into the comcast device.
+Once sshed into the comcast device do the following:
+
+- Shutdown the app manager
+>      systemctl stop xre-receiver 
+- Start westeros (Needed for graphics to be displayed, this only needs to be run one time)
+>      /usb/partnerapps/run_westeros.sh
+- Run the provided run_partner_app.sh script provided in the partnerapps folder
+>      /usb/partnerapps/run_partner_app.sh
+
+By default the the above shell script runs the rne_triangle sample app.  But it
+can easily be modified to run any app of your choosing by editing the last line
+in the script.
+
+To use the app manager again, just start its service back up.
+>      systemctl start xre-receiver 
 
 
 <a name="using-the-app-manager"></a>
@@ -245,9 +288,15 @@ The following actions are supported:
 - When an application is taking up the whole screen Pressing Ctrl-m (or remote xfinity key)  will bring you back to the app manager.
 - To reload the app manager (if the contents of the usb key were changed) press Ctrl-e (or Exit key on the remote).
 
-<a name="app-manager-logging"></a>
-### App Manager Logging ###
+<a name="app-manager-logging-raspberry-pi"></a>
+### App Manager Logging On The Raspberry Pi ###
 The app manager application will log all its output to /opt/logs/appmanager.log.
+
+All partner applications that are launched from the app manager will have their stdout/stderr also redirected to this file.
+
+<a name="app-manager-logging-comcast-devices"></a>
+### App Manager Logging On Comcast Devices ###
+The app manager application will log all its output to /opt/logs/receiver.log.
 
 All partner applications that are launched from the app manager will have their stdout/stderr also redirected to this file.
 
