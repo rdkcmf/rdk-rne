@@ -1,4 +1,4 @@
-RNE SDK version 0.3
+Firebolt SDK version 0.3
 ===================
 - [Introduction](#intro)
 - [Prerequisites](#prerequisites)
@@ -6,10 +6,11 @@ RNE SDK version 0.3
     - [Software Requirements](#software-requirements)
 - [Installation](#installation)
     - [Installation of RDK Image on Raspberry Pi](#installation-of-rdk-image-on-raspberry-pi)
-    - [Installation of RNE SDK](#installation-of-rne-sdk)
+    - [Installation of Firebolt SDK](#installation-of-rne-sdk)
 - [Developing applications](#developing-applications)
     - [Troubleshooting](#troubleshooting)
     - [Breakpad support](#breakpad-support)
+    - [Bluetooth support](#bluetooth-support)
 - [Terminal Access](#terminal-access)
 	- [For Raspberry Pi](#for-raspberry-pi)
 	- [For Comcast Devices](#for-comcast-devices)
@@ -40,7 +41,7 @@ RNE SDK version 0.3
 
 Introduction
 ------------
-RDK Native Environment SDK (RNE) is intended to provide a development environment for applications targeted to run in RDK environment.
+RDK Native Environment SDK (Firebolt) is intended to provide a development environment for applications targeted to run in RDK environment.
 
 <a name="prerequisites"></a>
 
@@ -91,13 +92,20 @@ Installation
 <a name="installation-of-rdk-image-on-raspberry-pi"></a>
 ### Installation of RDK Image on Raspberry Pi ###
 
-Currently the only supported version of the Raspberry pi is **Raspberry Pi 3 Model B**.
-With Pi 3 Model B+ support planned for a future release.
+Firebolt support the following Raspberry Pi models
+- Raspberry Pi 3 Model B+
+- Raspberry Pi 3 Model A+
+- Raspberry Pi 3 Model B
+- Raspberry Pi 2 Model B
+- Raspberry Pi Zero W*
 
-As part of RNE package you should receive a compressed rdk sdimg.xz to flash to the raspberry pi sdcard.
+*Raspberry Pi Zero W SDK/image is not compatible with other models in this version. 
+
+As part of Firebolt package you should receive a compressed rdk sdimg.xz to flash to the raspberry pi sdcard.
 Insert the raspberry pi sdcard into your desktop machine and flash the image using the
 following commands (**This will overwrite anything on the sdcard**).
 
+>       sudo mkfs.ext3 /dev/sdX
 >       xzcat /path/to/image/*.rpi-sdimg.xz  | sudo dd of=/dev/sdX bs=4M
 >       sync 
 
@@ -111,7 +119,7 @@ Once flashed insert the sdcard into the pi and make sure it has a valid ethernet
 Then power up the pi, it should boot up into the app manager screen with the ethernet IP listed at the bottom right.
 
 <a name="installation-of-rne-sdk"></a>
-### Installation of RNE SDK ###
+### Installation of Firebolt SDK ###
 
 To install the sdk, go the directory where it is copied, and run the following commands:
 
@@ -154,6 +162,10 @@ https://chromium.googlesource.com/breakpad/breakpad/+/master/docs/linux_starter_
 The static library is added as part of SDK. 
 
 The rne player application, included as part of this, has breakpad support.
+
+<a name="bluetooth-support"></a>
+### Bluetooth support ###
+This version supports bluez version 5.45. The support is limited to Human Interface Devices (HID) in this version. 
 
 <a name="troubleshooting"></a>
 ### Troubleshooting ###
@@ -509,7 +521,7 @@ mse-player sample application.
 
 Sample Applications
 ------------
-The provided sample apps are to help developers get up to speed with using the graphics and video APIs in RNE.
+The provided sample apps are to help developers get up to speed with using the graphics and video APIs in Firebolt.
 Generally all graphics and keyboard/remote input will be provided through wayland, and audio and video will use gstreamer.
 
 <a name="graphics-sample"></a>
