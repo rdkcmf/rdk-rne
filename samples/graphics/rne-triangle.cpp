@@ -858,8 +858,11 @@ static void processInputMain( AppCtx *ctx, uint32_t sym )
          }
          break;
       case XKB_KEY_l:
-         printf("get all surfaces:\n");
-         wl_simple_shell_get_surfaces( ctx->shell );
+	 if ( ctx->shell )
+         {
+             printf("get all surfaces:\n");
+             wl_simple_shell_get_surfaces( ctx->shell );
+	 }
          break;
       case XKB_KEY_r:
          ctx->planeWidth= (ctx->planeWidth == 1280) ? 640 : 1280;
