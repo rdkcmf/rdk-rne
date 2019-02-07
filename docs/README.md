@@ -11,6 +11,9 @@ Firebolt SDK version 0.3
     - [Troubleshooting](#troubleshooting)
     - [Breakpad support](#breakpad-support)
     - [Bluetooth support](#bluetooth-support)
+    - [GDB Support](#gdb-support)
+    - [Generating Corefiles](#generating-corefiles)
+
 - [Terminal Access](#terminal-access)
 	- [For Raspberry Pi](#for-raspberry-pi)
 	- [For Comcast Devices](#for-comcast-devices)
@@ -172,6 +175,65 @@ This version supports bluez version 5.45. The support is limited to Human Interf
 If a shared library has secondary dependencies which it cannot resolve, the following linker flags should be added to tell the linker to ignore its undefined symbols
 -Wl, --allow-shlib-undefined
 
+<a name="gdb-support"></a>
+### GDB Support ###
+Currently GDB is not shipped with the firemware/SDK.  It can be built with the sdk and copied to the device.
+Shell/SSH access is necessary to use it.
+
+1.  Download the source for gdb.
+2.  Make sure you are in a shell setup for Firebolt Development
+3.  Create a directory for installing gdb
+>      mkdir gdb_install
+
+4.  Enter the directory of the downloaded gdb source, CONFIGURE_FLAGS is already set in a Firebolt shell for cross compiling needs
+>      cd gdb-x.x
+>      ./configure $CONFIGURE_FLAGS --prefix=/path/to/gdb_install
+>      make
+>      make install
+
+5.  At the root of your usb key, create a usr directory
+>      cd /path_to_root_of_usb_key
+>      mkdir usr
+6.  Copy contents of gdb_install directory into usr on your usb key
+>      cp -r gdb_install/*  /path_to_root_of_usb_key/usr/
+7.  Insert usb key into device
+8.  Edit run_partner_app.sh script with the following:
+>       export LD_LIBRARY_PATH=/usb/usr/lib
+
+    Add the above to the script so gdb libs can be found
+
+    Change the launch line to prefix with the path to gdb on the key
+>       /usb/usr/bin/gdb /usb/partnerapps/rne-triangle/rne_triangle
+
+This launch script provided with the Firebolt SDK can be modified to launch any binary built
+with and without gdb.  The launch script should be at the root of the partnerapps folder.
+
+**Caveat**
+
+Somtimes compiled library dependencies can exist in the Firebolt sdk but not on the firmware.  For example when running GDB it may say its missing
+libncursesw.so.5.  This can be resolved by copying the needed Firebolt SDK library onto our new lib directory on the key:
+>     cp /path_to_sdk/sysroots/cortexa15t2hf-neon-rdk-linux-gnueabi/lib/libncurses.so.5 /path_to_root_of_usb_key/usr/lib/
+
+
+<a name="generating-corefiles"></a>
+### Generating Corefiles ###
+By default on many Comcast devices core dump support is turned off for space reasons.  We can override this though, for Firebolt development purposes.
+Shell/SSH access is necessary for this.
+
+1. Insert the usb key into the device
+2. Create a cores directory on the key
+>       cd /usb
+>       mkdir cores
+3. Enable coredumps
+>       ulimit -c unlimited
+4. Change /proc/sys/kernel/ to write cores to the usb key
+>       echo "/usb/cores/%e_%s_%t" > /proc/sys/kernel/core_pattern
+
+Corefiles can then be evaluated on the device by using gdb built for the device or can be evaulated
+using a gdb built on/for the ubuntu desktop with multiarch support.
+
+
+
 <a name="terminal-access"></a>
 
 Terminal Access
@@ -200,15 +262,15 @@ The following sections will detail how to load and run the provided sample appli
 <a name="preparing-USB"></a>
 ### Preparing USB ###
 As of this release, USB storage device should have **single partition and ext3 format**.
-To format USB in ext3 
+To format USB in ext3
 
 **Below assumes usb device is on device sdb**
 
-- Unmount USB drive. 
->      sudo umount /dev/sdb 
+- Unmount USB drive
+>      sudo umount /dev/sdb
 
-- Format USB drive in ext3 format 
->      sudo mkfs.ext3 /dev/sdb 
+- Format USB drive in ext3 format
+>      sudo mkfs.ext3 /dev/sdb
 
 <a name="running-sample-applications-raspberry-pi"></a>
 ### Running Sample Applications on Raspberry Pi ###
@@ -229,7 +291,7 @@ If provided ssh access:
 1.  SSH into the comcast device
 2.  Mount the usb key to /usb
 
->     mount /dev/sda /usb  
+>     mount /dev/sda /usb
 
 Once inserted, use a USB keyboard and press ctrl-e to reload the app manager. You will now see all the sample apps in the list.
 
@@ -248,7 +310,7 @@ For debugging purposes you can run your applications standalone without the app 
 Once sshed into the raspberry pi do the following:
 
 - Shutdown the app manager
->      systemctl stop appmanager 
+>      systemctl stop appmanager
 - Start the westeros service (Needed for graphics to be displayed)
 >      systemctl start westeros
 - Run the provided run_partner_app.sh script provided in the partnerapps folder
@@ -259,7 +321,7 @@ can easily be modified to run any app of your choosing by editing the last line
 in the script.
 
 To use the app manager again, just start its service back up.
->      systemctl start appmanager 
+>      systemctl start appmanager
 
 <a name="running-sample-applications-standalone-on-comcast-devices"></a>
 ### Running Sample Applications Standalone on Comcast Devices ###
@@ -268,7 +330,7 @@ provided you have ssh access into the comcast device.
 Once sshed into the comcast device do the following:
 
 - Shutdown the app manager
->      systemctl stop xre-receiver 
+>      systemctl stop xre-receiver
 - Start westeros (Needed for graphics to be displayed, this only needs to be run one time)
 >      /usb/partnerapps/run_westeros.sh
 - Run the provided run_partner_app.sh script provided in the partnerapps folder
@@ -279,7 +341,7 @@ can easily be modified to run any app of your choosing by editing the last line
 in the script.
 
 To use the app manager again, just start its service back up.
->      systemctl start xre-receiver 
+>      systemctl start xre-receiver
 
 
 <a name="using-the-app-manager"></a>
