@@ -32,6 +32,11 @@
 #include <rtRemote.h>
 #include <rtError.h>
 
+/**
+ * @addtogroup MSE Player
+ * @{
+ */
+
 enum ReadStatus { kDone = 0, kFrameRead, kPerformSeek };
 enum PipelineType { kAudioVideo = 0, kAudioOnly, kVideoOnly };
 
@@ -57,16 +62,94 @@ class MediaSourcePipeline : public rtObject {
   rtError resume();
 
   // functions called by glib static functions
+/**
+ *  @brief This API handles different message types.
+ *
+ *  Types can be errors, warnings, End of stream, state changed.
+ *
+ *  @param[in] message   Indicates the message type.
+ *
+ *  @return Returns true  on success, appropriate error code otherwise.
+ */
   gboolean HandleMessage(GstMessage* message);
+
+/**
+ *  @brief This signal callback is called when appsrc needs data.
+ *
+ *  @param[in] p_src   App source.
+ */
   void StartFeedingAppSource(GstAppSrc* p_src);
+
+/**
+ *  @brief This signal callback is called when appsrc have enough-data.
+ *
+ *  @param[in] p_src   App source.
+ */
   void StopFeedingAppSource(GstAppSrc* p_src);
+
+/**
+ *  @brief This API is to seek the app's position and set the  position.
+ *
+ *  @param[in] p_src      App source.
+ *  @param[in] position   Position to set.
+ */
   void SetNewAppSourceReadPosition(GstAppSrc* p_src, guint64 position);
+
+/**
+ *  @brief This API links auto pad added elements in audio pipeline or video pipeline depending upon the element audio/video.
+ *
+ *  @param[in] element   Source element
+ *  @param[in] pad       Capabilities
+ *
+ *  @return Returns RT_OK on success, appropriate error code otherwise.
+ */
   void OnAutoPadAddedMediaSource(GstElement* element, GstPad* pad);
+
+/**
+ *  @brief This API checks for the dynamic addition of real audio sink.
+ *
+ *  @param[in] element   Source element  
+ *
+ *  @return Returns RT_OK on success, appropriate error code otherwise.
+ */
   void OnAutoElementAddedMediaSource(GstElement* element);
+
+/**
+ *  @brief This API reads data from both the audio/video timestamp file, raw frames file and push the details to appsrc.
+ *
+ *  if it fails reading,assume end of file is reached and need to peform a seek. 
+ *
+ *  @return Returns TRUE on success, appropriate error code otherwise.
+ */
   gboolean ReadVideoFrame();
+
+/**
+ *  @brief This API reads the audio frame details and push the details to appsrc.
+ *
+ *  @return Returns TRUE on success, appropriate error code otherwise.
+ */
   gboolean ReadAudioFrame();
+
+/**
+ *  @brief This API queries the playback position.
+ *
+ *  Resets the file counter back to before beginning if it is complete.
+ *
+ *  @return Returns RT_OK on success, appropriate error code otherwise.
+ */
   gboolean StatusPoll();
+
+/**
+ *  @brief This API is used by the mse source to perform its own seek before 
+ *  starting the read data again.
+ *  
+ *  @return Returns False.
+ */
   gboolean ChunkDemuxerSeek();
+
+/**
+ *  @brief This signal callback is called when "source-setup" is emitted.
+ */
   void sourceChanged();
 
  private:
@@ -127,3 +210,8 @@ class MediaSourcePipeline : public rtObject {
 };
 
 #endif  // MEDIASOURCEPIPELINE_H_
+
+/**
+ * @}
+ */
+

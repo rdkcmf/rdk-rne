@@ -22,6 +22,10 @@
 
 #include <glib.h>
 
+/**
+ * @addtogroup MSE Player
+ * @{
+ */
 
 constexpr int eintr_maximum_attempts =100;
 #define HANDLE_EINTR_EAGAIN(x) ({            \
@@ -45,6 +49,17 @@ constexpr int eintr_maximum_attempts =100;
 constexpr int PIPE_LISTEN = 0, PIPE_WRITE = 1;
 typedef void (*PipeSourceCallback)(void* ctx);
 
+/**
+ *  @brief This API creates a new event source "rtRemoteSource".
+ *
+ *  This API also adds a file descriptor polled for this source,  sets whether a source can be called recursively.
+ *
+ *  @param[in] pipefd   Pipe File descriptor
+ *  @param[in] cb       Callback Function
+ *  @param[in] ctx      Context
+ *
+ *  @return Returns RT_OK on success, appropriate error code otherwise.
+*/
 GSource* pipe_source_new(int pipefd[2], PipeSourceCallback cb, void* ctx);
 
 #endif // GLIB_TOOLS_H
