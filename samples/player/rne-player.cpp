@@ -209,22 +209,26 @@ static void cb_playbin_source_setup( GObject *obj )
 { 
     const char* rne_proxy = getenv("RNE_PROXY");
     GObject *source_element; 
-    
-    if( NULL != rne_proxy )
+
+    if( g_object_class_find_property( G_OBJECT_GET_CLASS( obj ), "source" ) ) 
     {
-        printf( "The proxy is %s\n", rne_proxy );
-    
-        if( g_object_class_find_property( G_OBJECT_GET_CLASS( obj ), "source" ) ) 
+        /* Get source element of playbin*/
+        g_object_get(obj, "source", &source_element, NULL);
+
+	if( NULL != rne_proxy )
         {
-            /* Get source element of playbin*/
-            g_object_get(obj, "source", &source_element, NULL); 
-            
-            if( g_object_class_find_property ( G_OBJECT_GET_CLASS( source_element ), "proxy" ) ) 
-            { 
+            printf( "The proxy is %s\n", rne_proxy );
+            if( g_object_class_find_property ( G_OBJECT_GET_CLASS( source_element ), "proxy" ) )
+            {
                 g_object_set( G_OBJECT( source_element ), "proxy", rne_proxy, NULL );
             }
-            g_object_unref( source_element ); 
         }
+	//Set strict-tls property to false
+        if( g_object_class_find_property ( G_OBJECT_GET_CLASS( source_element ), "ssl-strict" ) )
+        {
+               g_object_set( G_OBJECT( source_element ), "ssl-strict", FALSE , NULL );
+        }
+        g_object_unref( source_element );
     }
 }
 
