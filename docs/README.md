@@ -39,6 +39,7 @@ Firebolt SDK version 0.3
     - [Player Sample](#player-sample)
     - [Lifecyle Sample](#lifecycle-sample)
     - [MSE Player Sample](#mse-player-sample)
+    - [Lightning cast Sample](#lightning-cast-sample)
 
 <a name="intro"></a>
 
@@ -628,3 +629,125 @@ The following key features are demonstrated:
 1.  How to setup and use a more complicated gstreamer pipeline with a custom source
 2.  How to setup and register an object with rt
 3.  How to handle suspend/resume
+
+<a name="lightning-cast-sample"></a>
+### Lightning cast Sample ###
+This sample app demonstrates how a native application can trigger the launch of another application via rt-remote mechanism. It 
+also demonstrates how to connect to a service dynamically by ping and bye methods. The sample app is already part of the image.
+The source is avaiable in samples/rtcast folder.
+
+To run this app, go the shell and type the following command
+> root@arrisxi6:~# LighteningCast
+
+The app will present the following options 
+```
+root@arrisxi6:~# LighteningCast 
+LighteningCastService!!!  Func: main
+rtLighteningCastRemoteObject(): Service com.comcast.lighteningcast
+LIGHTENINGCAST>>>>
+Select Options:
+1) launch Application
+2) stop Application
+3) query Application status
+4) Exit
+```
+
+Choose 1 to launch the application . The names listed in the appmanagerregistry.conf can be used to invoke the launch.
+```
+root@arrisxi6:~# LighteningCast 
+LighteningCastService!!!  Func: main
+rtLighteningCastRemoteObject(): Service com.comcast.lighteningcast
+LIGHTENINGCAST>>>>
+Select Options:
+1) launch Application
+2) stop Application
+3) query Application status
+4) Exit
+rt: WARN rtRemoteServer.cpp:793 -- Thread-31930: failed to get property: 8907a0a6-ef86-4c3d-aea1-c40c0aa2f6f0. RT_PROP_NOT_FOUND
+1
+
+Launch Application
+Application Name :
+
+```
+Provide the name of the application at this point 
+```
+Select Options:
+1) launch Application
+2) stop Application
+3) query Application status
+4) Exit
+1
+
+Launch Application
+Application Name : VOD-Spark
+Launch Params:
+
+```
+Press Enter since there are no arguments to be passed.
+```
+rt: WARN rtRemoteServer.cpp:793 -- Thread-31926: failed to get property: 8907a0a6-ef86-4c3d-aea1-c40c0aa2f6f0. RT_PROP_NOT_FOUND
+Select Options:
+1) launch Application
+2) stop Application
+3) query Application status
+4) Exit
+1
+
+Launch Application
+Application Name : VOD-Spark
+Launch Params:
+rtLighteningCastRemoteObject::launchApplication App:VOD-Spark  args:
+rt: WARN rtRemoteServer.cpp:793 -- Thread-31926: failed to get property: 8907a0a6-ef86-4c3d-aea1-c40c0aa2f6f0. RT_PROP_NOT_FOUND
+Select Options:
+1) launch Application
+2) stop Application
+3) query Application status
+4) Exit
+
+```
+The application will be launched at this point.
+
+Choose 2 to stop the application. You need to provide the same name to stop the app.
+
+Here is a sample that launches youtube
+```
+root@arrisxi6:~# LighteningCast 
+LighteningCastService!!!  Func: main
+rtLighteningCastRemoteObject(): Service com.comcast.lighteningcast
+LIGHTENINGCAST>>>>
+Select Options:
+1) launch Application
+2) stop Application
+3) query Application status
+4) Exit
+rt: WARN rtRemoteServer.cpp:793 -- Thread-31930: failed to get property: 8907a0a6-ef86-4c3d-aea1-c40c0aa2f6f0. RT_PROP_NOT_FOUND
+1
+
+Launch Application
+Application Name : youtube 
+Launch Params:
+https://www.youtube.com/tv
+rtLighteningCastRemoteObject::launchApplication App:youtube  args:https://www.youtube.com/tv
+rt: WARN rtRemoteServer.cpp:793 -- Thread-31926: failed to get property: 8907a0a6-ef86-4c3d-aea1-c40c0aa2f6f0. RT_PROP_NOT_FOUND
+Select Options:
+1) launch Application
+2) stop Application
+3) query Application status
+4) Exit
+3
+
+Query Application Status
+Application Name : youtube
+rtLighteningCastRemoteObject::getApplicationState App:youtube  ID:(null)
+rt: WARN rtRemoteServer.cpp:793 -- Thread-31930: failed to get property: 8907a0a6-ef86-4c3d-aea1-c40c0aa2f6f0. RT_PROP_NOT_FOUND
+rtLighteningCastRemoteObject::applicationStateChanged 
+AppName : youtube
+State : running
+Select Options:
+1) launch Application
+2) stop Application
+3) query Application status
+4) Exit
+
+```
