@@ -32,7 +32,7 @@ function buildgraphics()
 	echo "Entering graphics........"
 	cd graphics
 	autoreconf -f -i >build.log 2>&1
-	./configure --host=arm-linux --prefix=$PKG_CONFIG_SYSROOT_DIR --enable-rendergl \
+	./configure $CONFIGURE_FLAGS --prefix=$PKG_CONFIG_SYSROOT_DIR --enable-rendergl \
 		--enable-xdgv5 --disable-dependency-tracking --enable-sbprotocol >>build.log 2>&1
 	make  >>build.log 2>&1
 	if [ $? -eq 0 ] ; then
@@ -51,7 +51,7 @@ function buildplayer()
 	echo "Entering player........"
 	cd player
 	autoreconf -f -i >>build.log 2>&1
-	./configure --host=arm-linux --prefix=$PKG_CONFIG_SYSROOT_DIR --enable-rendergl \
+	./configure $CONFIGURE_FLAGS --prefix=$PKG_CONFIG_SYSROOT_DIR --enable-rendergl \
 		--enable-xdgv5 --disable-dependency-tracking --enable-sbprotocol \
 		--enable-player --enable-breakpad >>build.log 2>&1
 	make >>build.log 2>&1
@@ -71,7 +71,7 @@ function buildgraphicslifecycle()
 	echo "Entering graphics-lifecycle........"
 	cd graphics-lifecycle
 	autoreconf -f -i >>build.log 2>&1
-	./configure --host=arm-linux --prefix=$PKG_CONFIG_SYSROOT_DIR --enable-rendergl \
+	./configure $CONFIGURE_FLAGS --prefix=$PKG_CONFIG_SYSROOT_DIR --enable-rendergl \
 		--enable-xdgv5 --disable-dependency-tracking --enable-sbprotocol \
 		--enable-player >>build.log 2>&1
 	make >>build.log 2>&1
@@ -91,7 +91,7 @@ function buildmseplayer()
 	echo "Entering mse-player........"
 	cd mse-player
 	autoreconf -f -i >>build.log 2>&1
-	./configure --host=arm-linux --prefix=$PKG_CONFIG_SYSROOT_DIR >>build.log 2>&1
+	./configure $CONFIGURE_FLAGS --prefix=$PKG_CONFIG_SYSROOT_DIR >>build.log 2>&1
 	make >>build.log 2>&1
 	if [ $? -eq 0 ] ; then
     mkdir -p $cur_dir/$release_dir/mse-player/
