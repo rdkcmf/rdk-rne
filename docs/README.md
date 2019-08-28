@@ -49,7 +49,7 @@ RDK Native Environment SDK (Firebolt) is intended to provide a development envir
 
 <a name="prerequisites"></a>
 
-Prerequisites 
+Prerequisites
 -------------
 <a name="system-requirements"></a>
 ### System Requirements ###
@@ -61,25 +61,25 @@ Ubuntu 14.4 **64 bit** OS or higher
 ### Software Requirements ###
 
 The following software packages needs to be installed
-- awk 
-- wget 
-- git-core 
-- diffstat 
-- unzip 
-- texinfo 
-- gcc-multilib 
-- build-essential 
-- chrpath 
-- socat 
-- cpio 
-- python 
-- python3 
-- python3-pip 
-- python3-pexpect 
-- xz-utils 
-- debianutils 
-- iputils-ping 
-- libsdl1.2-dev 
+- awk
+- wget
+- git-core
+- diffstat
+- unzip
+- texinfo
+- gcc-multilib
+- build-essential
+- chrpath
+- socat
+- cpio
+- python
+- python3
+- python3-pip
+- python3-pexpect
+- xz-utils
+- debianutils
+- iputils-ping
+- libsdl1.2-dev
 - xterm
 
 This can be installed using the following command
@@ -103,7 +103,7 @@ Firebolt support the following Raspberry Pi models
 - Raspberry Pi 2 Model B
 - Raspberry Pi Zero W*
 
-*Raspberry Pi Zero W SDK/image is not compatible with other models in this version. 
+*Raspberry Pi Zero W SDK/image is not compatible with other models in this version.
 
 As part of Firebolt package you should receive a compressed rdk sdimg.xz to flash to the raspberry pi sdcard.
 Insert the raspberry pi sdcard into your desktop machine and flash the image using the
@@ -111,11 +111,11 @@ following commands (**This will overwrite anything on the sdcard**).
 
 >       sudo mkfs.ext3 /dev/sdX
 >       xzcat /path/to/image/*.rpi-sdimg.xz  | sudo dd of=/dev/sdX bs=4M
->       sync 
+>       sync
 
-Replace */path/to/image/*  with correct path to sdimg.xz.  
-Replace the *X* in *sdX* with the correct device letter of the sdcard when inserted into your machine.  
-**Example:**  
+Replace */path/to/image/*  with correct path to sdimg.xz.
+Replace the *X* in *sdX* with the correct device letter of the sdcard when inserted into your machine.
+**Example:**
 >       xzcat RPIMC_default_20181015101838sdy.rootfs.rpi-sdimg.xz  | sudo dd of=/dev/sdc bs=4M
 
 
@@ -129,11 +129,11 @@ To install the sdk, go the directory where it is copied, and run the following c
 
 On Raspberry Pi:
 >      chmod +x ./raspberrypi-rdk-mc-RNE-SDK-2.0.sh
->      ./raspberrypi-rdk-mc-RNE-SDK-2.0.sh 
+>      ./raspberrypi-rdk-mc-RNE-SDK-2.0.sh
 
 On Comcast Devices:
 >      chmod +x ./DEVICE-RNE-SDK-2.0.sh
->      ./DEVICE-RNE-SDK-2.0.sh 
+>      ./DEVICE-RNE-SDK-2.0.sh
 Replace DEVICE with your particular device: e.g. (pacexi5, pacexi5-RNE-SDK-2.0.sh)
 
 Follow the instructions in the screen regarding installation directory. If you don't want to change the default directory, please press *ENTER* and proceed.
@@ -163,13 +163,13 @@ After the samples are built they are contained in a partnerapps directory for co
 ### Breadpad support ###
 Google breakpad support is available for the applications. For more information about Google breakpad and it's integration, check this link
 https://chromium.googlesource.com/breakpad/breakpad/+/master/docs/linux_starter_guide.md
-The static library is added as part of SDK. 
+The static library is added as part of SDK.
 
 The rne player application, included as part of this, has breakpad support.
 
 <a name="bluetooth-support"></a>
 ### Bluetooth support ###
-This version supports bluez version 5.45. The support is limited to Human Interface Devices (HID) in this version. 
+This version supports bluez version 5.45. The support is limited to Human Interface Devices (HID) in this version.
 
 <a name="troubleshooting"></a>
 ### Troubleshooting ###
@@ -350,18 +350,55 @@ To use the app manager again, just start its service back up.
 Using the App Manager
 ----------------------
 
-A USB keyboard or remote control (on supported systems) can be used on the device to interact with the app manager.  
+A USB keyboard or remote control (on supported systems) or mouse can be used on the device to interact with the app manager.
 
 The following actions are supported:
 
-- Pressing the up and down keyboard arrow keys (or remote arrows)  moves between the apps
-- Pressing Enter (or OK button remote)  will launch or switch to a selected app.
-- Pressing left or right arrow keys (or remote arrows)  will select one of three options (Launch/Suspend/Stop)  
--- Launch will launch the selected application, if an app is already launched it will be switched to.  
--- Suspend will put an application in suspend state if it supports it (Graphics Lifecycle and MSE sample player support suspend/resume)  
--- If an app is suspended this option will become Resume, which when pressed will resume the application.
-- When an application is taking up the whole screen Pressing Ctrl-m (or remote xfinity key)  will bring you back to the app manager.
-- To reload the app manager (if the contents of the usb key were changed) press Ctrl-e (or Exit key on the remote).
+### To navigate through the apps,
+  - on keyboard, press the  up, down, left or right arrow keys
+  - on remote, press the arrow keys
+  - When Mouse is connected, mouse can be hovered to navigate through the apps
+### To launch a app,
+  - on keyboard, Press Enter key
+  - on remote, Press OK button
+  - on mouse, Left click on Mouse
+### When an application is taking up the whole screen to go back to the app manager menu and stop the running application,
+  - on keyboard, press Ctrl-m
+  - on remote, press xfinity key 
+### To reload the app manager (if the contents of the usb key were changed),
+  - on keyboard, press Ctrl-e
+  - on remote, press Exit key
+
+The UI supports enabling and disabling suspend mode option in the UI.
+When Suspend mode is enabled, it provides suspend/resume options for Spark and Native apps.
+For Web apps Suspend mode is not supported.
+
+To enable/disable suspend mode, navigate using keyboard or remote or mouse to the "Controls" on top the top right corner of UI.
+
+### To see menu on the "Controls"
+  - on keyboard, press Enter key
+  - on mouse, Left click
+  - on remote, press OK button
+### To enable/disable Suspend mode
+  - Open "Controls" on the top right corner
+  - Navigate to enable/disable Suspend mode. To enable/disable,
+    - Press Enter on keyboard
+    - Press OK on remote
+    - Left click on mouse
+### To exit from menu on the "Controls"
+  - on keyboard, press ctrl+m/left arrow/down arrow
+  - on remote, press xfinity key/left arrow/down arrow
+### To launch, suspend, resume, stop an app,
+  - navigate to the app
+  - Launch the app by pressing "Enter" key on keyboard or "OK" on remote, or "Left click" on mouse.
+  - To view the options Suspend/Stop/Home(go back to App menu running the app in background),
+    press "Ctrl+m" on keyboard/"Xfinity key" on remote. Select any option.
+  - When the app is "Suspended", launch the app from the App menu to see the options, Resume/Stop.
+    Select "Resume" to resume the app/"Stop" to stop the app.
+### App status on App menu
+  - Apps running in the background, display green play symbol on the app icon.
+  - Apps suspended, display orange pause symbol on the app icon.
+  - Apps stopped, display grey stop symbol on the app icon.
 
 <a name="app-manager-logging-raspberry-pi"></a>
 ### App Manager Logging On The Raspberry Pi ###
@@ -392,7 +429,7 @@ The following is a general graphics setup flow.
 display= wl_display_connect(display_name);  // A NULL display name connects to default WAYLAND_DISPLAY set by app manager
 
 // Use the registry as the hook to connect to the rest of the wayland callbacks
-registry= wl_display_get_registry(display); 
+registry= wl_display_get_registry(display);
 wl_registry_add_listener(registry, &registryListener, &ctx);
 
 // Complete communication to compositor for above commands
@@ -632,16 +669,16 @@ The following key features are demonstrated:
 
 <a name="lightning-cast-sample"></a>
 ### Lightning cast Sample ###
-This sample app demonstrates how a native application can trigger the launch of another application via rt-remote mechanism. It 
+This sample app demonstrates how a native application can trigger the launch of another application via rt-remote mechanism. It
 also demonstrates how to connect to a service dynamically by ping and bye methods. The sample app is already part of the image.
 The source is avaiable in samples/rtcast folder.
 
 To run this app, go the shell and type the following command
 > root@arrisxi6:~# LighteningCast
 
-The app will present the following options 
+The app will present the following options
 ```
-root@arrisxi6:~# LighteningCast 
+root@arrisxi6:~# LighteningCast
 LighteningCastService!!!  Func: main
 rtLighteningCastRemoteObject(): Service com.comcast.lighteningcast
 LIGHTENINGCAST>>>>
@@ -654,7 +691,7 @@ Select Options:
 
 Choose 1 to launch the application . The names listed in the appmanagerregistry.conf can be used to invoke the launch.
 ```
-root@arrisxi6:~# LighteningCast 
+root@arrisxi6:~# LighteningCast
 LighteningCastService!!!  Func: main
 rtLighteningCastRemoteObject(): Service com.comcast.lighteningcast
 LIGHTENINGCAST>>>>
@@ -670,7 +707,7 @@ Launch Application
 Application Name :
 
 ```
-Provide the name of the application at this point 
+Provide the name of the application at this point
 ```
 Select Options:
 1) launch Application
@@ -712,7 +749,7 @@ Choose 2 to stop the application. You need to provide the same name to stop the 
 
 Here is a sample that launches youtube
 ```
-root@arrisxi6:~# LighteningCast 
+root@arrisxi6:~# LighteningCast
 LighteningCastService!!!  Func: main
 rtLighteningCastRemoteObject(): Service com.comcast.lighteningcast
 LIGHTENINGCAST>>>>
@@ -725,7 +762,7 @@ rt: WARN rtRemoteServer.cpp:793 -- Thread-31930: failed to get property: 8907a0a
 1
 
 Launch Application
-Application Name : youtube 
+Application Name : youtube
 Launch Params:
 https://www.youtube.com/tv
 rtLighteningCastRemoteObject::launchApplication App:youtube  args:https://www.youtube.com/tv
@@ -741,7 +778,7 @@ Query Application Status
 Application Name : youtube
 rtLighteningCastRemoteObject::getApplicationState App:youtube  ID:(null)
 rt: WARN rtRemoteServer.cpp:793 -- Thread-31930: failed to get property: 8907a0a6-ef86-4c3d-aea1-c40c0aa2f6f0. RT_PROP_NOT_FOUND
-rtLighteningCastRemoteObject::applicationStateChanged 
+rtLighteningCastRemoteObject::applicationStateChanged
 AppName : youtube
 State : running
 Select Options:
