@@ -17,6 +17,10 @@
  * limitations under the License.
  */
 
+#ifdef ENABLE_BREAKPAD
+#include "client/linux/handler/exception_handler.h"
+#endif
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -39,7 +43,6 @@ typedef struct _AppCtx
    GMainLoop *loop;
 } AppCtx;
 #ifdef ENABLE_BREAKPAD
-#include "client/linux/handler/exception_handler.h"
 static bool breakpadDumpCallback(const google_breakpad::MinidumpDescriptor& descriptor,
                                                                void* context,
                                                                bool succeeded)
