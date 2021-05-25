@@ -40,6 +40,7 @@ Firebolt SDK version 0.3
     - [Lifecyle Sample](#lifecycle-sample)
     - [MSE Player Sample](#mse-player-sample)
     - [Lightning cast Sample](#lightning-cast-sample)
+    - [Video2Texture Sample](#Video2Texture)
 
 <a name="intro"></a>
 
@@ -787,4 +788,25 @@ Select Options:
 3) query Application status
 4) Exit
 
+```
+<a name="Video2Texture"></a>
+### Video2Texture Sample application ###
+
+This is a sample application build to demonstrate the capabilities of the platform to provide video as a texture. Please note that 
+this sample does not use wayland nor support secure video path (SVP) for broadcom platform for the time being.
+
+#### Buiding the app ####
+Once SDK is inintialied (source xxx), use the following command 
+```
+~/firebolt/xi6/nwtexture$autoreconf -f -i
+~/firebolt/xi6/nwtexture$./configure $CONFIGURE_FLAGS --prefix=$PKG_CONFIG_SYSROOT_DIR 
+~/firebolt/xi6/nwtexture$make
+```
+
+#### Running the app ####
+
+In the box console, enter the following 
+```
+root@arrisxi6:~#export XDG_RUNTIME_DIR=/tmp/
+root@arrisxi6:~#./nwvidtex file:///<path to a video file>
 ```
