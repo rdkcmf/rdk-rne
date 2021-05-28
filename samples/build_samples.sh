@@ -26,7 +26,7 @@ fi
 result=1
 cur_dir=$PWD
 release_dir=partnerapps
-function buildgraphics()
+buildgraphics()
 {
    result=1
 	echo "Entering graphics........"
@@ -45,7 +45,7 @@ function buildgraphics()
 	fi
 	cd $cur_dir
 }
-function buildplayer()
+buildplayer()
 {
    result=1
 	echo "Entering player........"
@@ -65,7 +65,7 @@ function buildplayer()
 	fi
 	cd $cur_dir
 }
-function buildgraphicslifecycle()
+buildgraphicslifecycle()
 {
    result=1
 	echo "Entering graphics-lifecycle........"
@@ -85,7 +85,7 @@ function buildgraphicslifecycle()
 	fi
 	cd $cur_dir
 }
-function buildmseplayer()
+buildmseplayer()
 {
    result=1
 	echo "Entering mse-player........"
