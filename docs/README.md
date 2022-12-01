@@ -161,7 +161,7 @@ Now all the cross compiler tools are available for development. Four native samp
 After the samples are built they are contained in a partnerapps directory for copying to the provided device.
 
 <a name="breakpad-support"></a>
-### Breadpad support ###
+### Breakpad support ###
 Google breakpad support is available for the applications. For more information about Google breakpad and it's integration, check this link
 https://chromium.googlesource.com/breakpad/breakpad/+/master/docs/linux_starter_guide.md
 The static library is added as part of SDK.
@@ -642,6 +642,12 @@ The following key features are demonstrated:
 
 1.  How to build a simple gstreamer pipeline with westerossink
 2.  How to get screen resolution
+
+By default, the application will apptempt to load the URL http://download.blender.org/peach/bigbuckbunny_movies/big_buck_bunny_720p_h264.mov
+If the URL is not loaded, run the application as :
+```
+/usb/partnerapps/rne-player/rne_player https://archive.org/download/BigBuckBunny/big_buck_bunny_720p_h264.mov
+```
 
 <a name="lifecycle-sample"></a>
 ### Lifecycle Sample ###
